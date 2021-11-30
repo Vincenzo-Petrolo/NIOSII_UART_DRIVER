@@ -5,7 +5,7 @@
 
 #define DEBUG 1
 #define EVER ;;
-#define PROJECT3_2
+#define PROJECT3_1
 
 #define BASE_ADDR 0x08001060
 #define RXDATA_OFFS 0
@@ -37,7 +37,7 @@ int main()
 	// DIVISOR computation for desired BAUDRATE
 	divisor_val = (alt_timestamp_freq()/BAUDRATE)-1;
 #if DEBUG
-	printf("divisor_val:: %d\n", divisor_val);
+	printf("divisor_val:: %d - BAUDRATE:: %d\n", divisor_val, BAUDRATE);
 #endif
 
 	// writes computed divisor_val into DIVISOR peripheral register
@@ -62,7 +62,6 @@ int main()
 	int *reg_ptr = (int *)BASE_ADDR;
 	int char_to_send1 = 78; // 'N'
 	int char_to_send2 = 73; // 'I'
-	//int char_to_send3 = 71; // 'G'
 
 	// welcome message
 	printf("NIOSII_UART_DRIVER_project3\n\n");
@@ -70,7 +69,7 @@ int main()
 	// DIVISOR computation for desired BAUDRATE
 	divisor_val = (alt_timestamp_freq()/BAUDRATE)-1;
 #if DEBUG
-	printf("divisor_val:: %d\n", divisor_val);
+	printf("divisor_val:: %d - BAUDRATE:: %d\n", divisor_val, BAUDRATE);
 #endif
 
 	// writes computed divisor_val into DIVISOR peripheral register
@@ -82,6 +81,41 @@ int main()
 	*(reg_ptr + TXDATA_OFFS) = char_to_send1;
 	*(reg_ptr + TXDATA_OFFS) = char_to_send2;
 	printf("STATUS register after 2nd tx:: %d\n", *(reg_ptr + STATUS_OFFS));
+
+	for(EVER);
+
+	return 0;
+}
+#endif
+
+#ifdef PROJECT3_3
+int main()
+{
+	int divisor_val = 0;
+	int *reg_ptr = (int *)BASE_ADDR;
+	int char_to_send1 = 78; // 'N'
+	int char_to_send2 = 73; // 'I'
+	int char_to_send3 = 71; // 'G'
+
+	// welcome message
+	printf("NIOSII_UART_DRIVER_project3\n\n");
+
+	// DIVISOR computation for desired BAUDRATE
+	divisor_val = (alt_timestamp_freq()/BAUDRATE)-1;
+#if DEBUG
+	printf("divisor_val:: %d - BAUDRATE:: %d\n", divisor_val, BAUDRATE);
+#endif
+
+	// writes computed divisor_val into DIVISOR peripheral register
+	*(reg_ptr + DIVISOR_OFFS) = divisor_val;
+
+	// writes chars to be sent in sequence into TXDATA register
+	printf("\n\n*** Transmitting 3 chars consecutively ***\n\n");
+	printf("STATUS register before 1st tx:: %d\n", *(reg_ptr + STATUS_OFFS));
+	*(reg_ptr + TXDATA_OFFS) = char_to_send1;
+	*(reg_ptr + TXDATA_OFFS) = char_to_send2;
+	*(reg_ptr + TXDATA_OFFS) = char_to_send3;	// should be missing
+	printf("STATUS register after 3rd tx:: %d\n", *(reg_ptr + STATUS_OFFS));
 
 	for(EVER);
 
