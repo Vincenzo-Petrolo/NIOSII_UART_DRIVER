@@ -15,10 +15,17 @@
  */
 
 #include <stdio.h>
+#include "system.h"
+#include "sys/alt_timestamp.h"
 
 int main()
 {
-  printf("Hello from Nios II!\n");
-
-  return 0;
+	int *base_address = 0x08001060;
+	for ( int i = 0 ; i < 5; i++)
+	{
+		int val = *base_address;
+		printf ( "%d\n", val);
+		base_address += 4;
+	}
+	return 0;
 }
