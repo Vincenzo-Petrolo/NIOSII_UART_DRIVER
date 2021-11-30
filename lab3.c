@@ -19,5 +19,6 @@ int main()
 	int *pdiv = DIVISOR;
 	*pdiv = divisor2;
 	printf("%d", *pdiv);
+	while(1);
 	return 0;
 }
