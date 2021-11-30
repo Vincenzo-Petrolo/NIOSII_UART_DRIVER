@@ -13,11 +13,13 @@
 
 int main()
 {
-	int freq = alt_timestamp_freq(void);
-	int divisor1 = freq/BR1 - 1;
-	int divisor2 = freq/BR2 - 1;
-	int *pdiv = DIVISOR;
-	*pdiv = divisor2;
-	printf("%d", *pdiv);
+	while (1) {
+		int freq = alt_timestamp_freq(void);
+		int divisor1 = freq/BR1 - 1;
+		int divisor2 = freq/BR2 - 1;
+		int *pdiv = DIVISOR;
+		*pdiv = divisor2;
+		printf("%d", *pdiv);
+	}
 	return 0;
 }
