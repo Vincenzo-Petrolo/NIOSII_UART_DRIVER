@@ -1,10 +1,10 @@
 int main()
 {
-	int *base_address = 0x08001060;
+	int *base_address = RXDATA;
 	int reg;
 	for ( int i = 0 ; i < 5; i++)
 	{
-		reg = *UARTRX;
+		reg = *base_address;
 		printf ( "%d\n", val);
 		base_address += 4;
 	}
