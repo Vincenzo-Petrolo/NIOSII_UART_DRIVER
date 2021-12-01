@@ -3,16 +3,15 @@
 #include "sys/alt_timestamp.h"
 #include "altera_avalon_pio_regs.h"
 
-#define DEBUG 1
+#define VERBOSE 1
 #define EVER ;;
 #define PROJECT3_1
 
-#define BASE_ADDR 0x08001060
-#define RXDATA_OFFS 0
-#define TXDATA_OFFS 4
-#define STATUS_OFFS 8
-#define CONTROL_OFFS 12
-#define DIVISOR_OFFS 16
+#define RXDATA (int *)0x08001060
+#define TXDATA (int *)0x08001064
+#define STATUS (int *)0x08001068
+#define CONTROL (int *)0x0800106C
+#define DIVISOR (int *)0x08001070
 
 #define BAUDRATE 2400
 
@@ -28,7 +27,6 @@
 int main()
 {
 	int divisor_val = 0;
-	int *reg_ptr = (int *)BASE_ADDR;
 	int char_to_send = 83; // 'S'
 
 	// welcome message
@@ -36,18 +34,18 @@ int main()
 
 	// DIVISOR computation for desired BAUDRATE
 	divisor_val = (alt_timestamp_freq()/BAUDRATE)-1;
-#if DEBUG
+#if VERBOSE
 	printf("divisor_val:: %d - BAUDRATE:: %d\n", divisor_val, BAUDRATE);
 #endif
 
 	// writes computed divisor_val into DIVISOR peripheral register
-	*(reg_ptr + DIVISOR_OFFS) = divisor_val;
+	*DIVISOR = divisor_val;
 
 	// writes char to be sent into TXDATA register
 	printf("\n\n*** Transmitting char %c ***\n\n", (char)char_to_send);
-	printf("STATUS register before tx:: %d\n", *(reg_ptr + STATUS_OFFS));
-	*(reg_ptr + TXDATA_OFFS) = char_to_send;
-	printf("STATUS register after tx:: %d\n", *(reg_ptr + STATUS_OFFS));
+	printf("STATUS register before tx:: %d\n", *STATUS);
+	*TXDATA = char_to_send;
+	printf("STATUS register after tx:: %d\n", *STATUS);
 
 	for(EVER);
 
@@ -59,7 +57,6 @@ int main()
 int main()
 {
 	int divisor_val = 0;
-	int *reg_ptr = (int *)BASE_ADDR;
 	int char_to_send1 = 78; // 'N'
 	int char_to_send2 = 73; // 'I'
 
@@ -68,19 +65,19 @@ int main()
 
 	// DIVISOR computation for desired BAUDRATE
 	divisor_val = (alt_timestamp_freq()/BAUDRATE)-1;
-#if DEBUG
+#if VERBOSE
 	printf("divisor_val:: %d - BAUDRATE:: %d\n", divisor_val, BAUDRATE);
 #endif
 
 	// writes computed divisor_val into DIVISOR peripheral register
-	*(reg_ptr + DIVISOR_OFFS) = divisor_val;
+	*DIVISOR = divisor_val;
 
 	// writes chars to be sent in sequence into TXDATA register
 	printf("\n\n*** Transmitting 2 chars consecutively ***\n\n");
-	printf("STATUS register before 1st tx:: %d\n", *(reg_ptr + STATUS_OFFS));
-	*(reg_ptr + TXDATA_OFFS) = char_to_send1;
-	*(reg_ptr + TXDATA_OFFS) = char_to_send2;
-	printf("STATUS register after 2nd tx:: %d\n", *(reg_ptr + STATUS_OFFS));
+	printf("STATUS register before 1st tx:: %d\n", *STATUS);
+	*TXDATA = char_to_send1;
+	*TXDATA = char_to_send2;
+	printf("STATUS register after 2nd tx:: %d\n", *STATUS);
 
 	for(EVER);
 
@@ -92,7 +89,6 @@ int main()
 int main()
 {
 	int divisor_val = 0;
-	int *reg_ptr = (int *)BASE_ADDR;
 	int char_to_send1 = 78; // 'N'
 	int char_to_send2 = 73; // 'I'
 	int char_to_send3 = 71; // 'G'
@@ -102,20 +98,20 @@ int main()
 
 	// DIVISOR computation for desired BAUDRATE
 	divisor_val = (alt_timestamp_freq()/BAUDRATE)-1;
-#if DEBUG
+#if VERBOSE
 	printf("divisor_val:: %d - BAUDRATE:: %d\n", divisor_val, BAUDRATE);
 #endif
 
 	// writes computed divisor_val into DIVISOR peripheral register
-	*(reg_ptr + DIVISOR_OFFS) = divisor_val;
+	*DIVISOR = divisor_val;
 
 	// writes chars to be sent in sequence into TXDATA register
 	printf("\n\n*** Transmitting 3 chars consecutively ***\n\n");
-	printf("STATUS register before 1st tx:: %d\n", *(reg_ptr + STATUS_OFFS));
-	*(reg_ptr + TXDATA_OFFS) = char_to_send1;
-	*(reg_ptr + TXDATA_OFFS) = char_to_send2;
-	*(reg_ptr + TXDATA_OFFS) = char_to_send3;	// should be missing
-	printf("STATUS register after 3rd tx:: %d\n", *(reg_ptr + STATUS_OFFS));
+	printf("STATUS register before 1st tx:: %d\n", *STATUS);
+	*TXDATA = char_to_send1;
+	*TXDATA = char_to_send2;
+	*TXDATA = char_to_send3;	// should be missing
+	printf("STATUS register after 3rd tx:: %d\n", *STATUS);
 
 	for(EVER);
 
