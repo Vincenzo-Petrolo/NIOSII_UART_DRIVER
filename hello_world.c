@@ -35,6 +35,7 @@
 
 void uart_set_register(uint32_t reg_addr, uint16_t value);
 void uart_read_register(uint32_t reg_addr,uint16_t *regdata);
+void uart_read_data(uint16_t *read);
 void uart_write_data(uint8_t data);
 
 #ifdef PROJECT4_1
@@ -83,12 +84,12 @@ void uart_read_register(uint32_t reg_addr,uint16_t *regdata)
 
 void uart_read_data(uint16_t *read)
 {
-  uint16_t control_reg;
+  uint16_t status_reg;
 
   /*wait until data is not ready on register*/
   do {
-    uart_read_register(BASE_ADDR+CONTROL_OFFS, &control_reg);
-  } while( (control_reg & RRDY_MASK) != 1);
+    uart_read_register(BASE_ADDR+STATUS_OFFS, &status_reg);
+  } while( (status_reg & RRDY_MASK) != 1);
   /*reading*/
   *read = BASE_ADDR+RXDATA_OFFS;
 
@@ -97,11 +98,11 @@ void uart_read_data(uint16_t *read)
 
 void uart_write_data(uint8_t data)
 {
-  uint16_t control_reg;
+  uint16_t status_reg;
   /*wait until bit is set*/
   do {
-    uart_read_register(BASE_ADDR+CONTROL_OFFS, &control_reg);
-  } while( (control_reg & TRDY_MASK) != 1);
+    uart_read_register(BASE_ADDR+STATUS_OFFS, &status_reg);
+  } while( (status_reg & TRDY_MASK) != 1);
   /*write*/
   *(uint32_t*)(BASE_ADDR+TXDATA_OFFS) = data;
 
