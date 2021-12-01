@@ -6,17 +6,13 @@
 #include "sys/alt_timestamp.h"
 #include "altera_avalon_pio_regs.h"
 #endif
+#include "libuart.h"
 
 #define DEBUG 1
 #define EVER ;;
 #define PROJECT4_1
 
 #define BASE_ADDR 0x08001060
-#define RXDATA_OFFS 0
-#define TXDATA_OFFS 4
-#define STATUS_OFFS 8
-#define CONTROL_OFFS 12
-#define DIVISOR_OFFS 16
 
 #define BAUDRATE 2400
 
@@ -41,24 +37,29 @@ void uart_write_data(uint8_t data);
 #ifdef PROJECT4_1
 int main()
 {
-	int divisor_val = 0;
-  int *reg_ptr = (int *)BASE_ADDR;
-  int char_to_send = 83; // 'S'
+	uint16_t divisor_val = 0;
+  uint8_t string[] = "Ciao da FPGAlovers";
+  uart_controller_t controller;
 
-		// welcome message
+  /*init uart controller*/
+  uart_init(&controller, BASE_ADDR);
+
   printf("NIOSII_UART_DRIVER_project4\n\n");
 
-		// DIVISOR computation for desired BAUDRATE
+  /*Compute divisor*/
   divisor_val = (alt_timestamp_freq()/BAUDRATE)-1;
+  /*Update divisor*/
+  uart_set_divisor(&controller, divisor_val);
+
 	#if DEBUG
 		printf("divisor_val:: %d\n", divisor_val);
 	#endif
 
-  char string[] = "Ciao da FPGAlovers";
 
+  /*Send string over UART*/
   for (size_t i = 0; i < strlen(string); i++)
   {
-    uart_write_data((uint8_t) string[i]);
+    uart_set_txdata(&controller, string[i]);
   }
   
 
@@ -67,44 +68,3 @@ int main()
 	return 0;
 }
 #endif
-
-void uart_set_register(uint32_t reg_addr, uint16_t value)
-{
-  *(uint32_t *)reg_addr = value;
-
-  return;
-}
-
-void uart_read_register(uint32_t reg_addr,uint16_t *regdata)
-{
-  *regdata = reg_addr;
-
-  return;
-}
-
-void uart_read_data(uint16_t *read)
-{
-  uint16_t status_reg;
-
-  /*wait until data is not ready on register*/
-  do {
-    uart_read_register(BASE_ADDR+STATUS_OFFS, &status_reg);
-  } while( (status_reg & RRDY_MASK) != 1);
-  /*reading*/
-  *read = BASE_ADDR+RXDATA_OFFS;
-
-  return;
-}
-
-void uart_write_data(uint8_t data)
-{
-  uint16_t status_reg;
-  /*wait until bit is set*/
-  do {
-    uart_read_register(BASE_ADDR+STATUS_OFFS, &status_reg);
-  } while( (status_reg & TRDY_MASK) != 1);
-  /*write*/
-  *(uint32_t*)(BASE_ADDR+TXDATA_OFFS) = data;
-
-  return;
-}
