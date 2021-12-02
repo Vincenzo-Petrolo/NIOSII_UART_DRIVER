@@ -21,9 +21,16 @@ void uart_read_rxdata(uart_controller_t *cntrl, uint8_t *data);
 
 void uart_set_txdata(uart_controller_t *cntrl, uint8_t data);
 
-uint16_t uart_set_status(uart_controller_t *cntrl, uint16_t bitmask);
+void uart_read_status(uart_controller_t *cntrl, uint8_t *status);
 
-uint16_t uart_set_control(uart_controller_t *cntrl, uint16_t bitmask);
+void uart_clear_status(uart_controller_t *cntrl);
+
+void uart_read_control(uart_controller_t *cntrl, uint8_t *controller);
+
+/*  bitmaks1 contains a mask where each 1 means that i want that bit to be set to 1
+    bitmaks0 contains a mask where each 1 means that i want that bit to be set to 0
+*/
+void uart_set_control(uart_controller_t *cntrl, uint16_t bitmask1, uint16_t bitmask0);
 
 void uart_set_divisor(uart_controller_t *cntrl, uint16_t value);
 
