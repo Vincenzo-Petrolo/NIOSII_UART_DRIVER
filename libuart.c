@@ -1,23 +1,39 @@
 #include "libuart.h"
 
-/*You can use this also for reading by applying a 16bit mask of '1's,
-    for instance uart_set_status(..., 0x0000) returns the current status register.
-    Values are applied by bitwise XOR mask
-*/
-uint16_t uart_set_status(uart_controller_t *cntrl, uint16_t bitmask)
+void uart_read_status(uart_controller_t *cntrl, uint16_t *status)
 {
-    uint16_t status_reg = *(cntrl->base_address + STATUS_OFFS);
-    status_reg ^= bitmask;
+    *status = *(cntrl->base_address + STATUS_OFFS);
 
-    return status_reg;
+    return;
 }
 
-uint16_t uart_set_control(uart_controller_t *cntrl, uint16_t bitmask)
+/*clear all bits that are flagged as clearable (C) */
+void uart_clear_status(uart_controller_t *cntrl)
 {
-    uint16_t control_reg = *(cntrl->base_address + CONTROL_OFFS);
-    control_reg ^= bitmask;
+    *(cntrl->base_address + STATUS_OFFS) = 0;
 
-    return control_reg;
+    return;
+}
+
+
+void uart_read_control(uart_controller_t *cntrl, uint16_t *controller)
+{
+    *controller = *(cntrl->base_address + CONTROL_OFFS);
+
+    return;
+}
+
+/*  bitmaks1 contains a mask where each 1 means that i want that bit to be set to 1
+    bitmaks0 contains a mask where each 1 means that i want that bit to be set to 0
+*/
+void uart_set_control(uart_controller_t *cntrl, uint16_t bitmask1, uint16_t bitmask0)
+{
+    uint16_t control_reg;
+    uart_read_controller(cntrl, &control_reg);
+    control_reg |= bitmask1;
+    control_reg &= ~(bitmask0);
+
+    return;
 }
 
 void uart_set_divisor(uart_controller_t *cntrl, uint16_t value)
@@ -28,23 +44,29 @@ void uart_set_divisor(uart_controller_t *cntrl, uint16_t value)
 }
 
 
-void uart_read_rxdata(uart_controller_t *cntrl, uint8_t *data)
+void uart_read_rxdata(uart_controller_t *cntrl, uint16_t *data)
 {
 
     /*wait RRDY to be set to 1*/
-    while ((uart_set_status(cntrl, 0x0000) & 0x80) == 0);
-    
+
+    uint16_t status;
+    do {
+        uart_read_status(cntrl, &status);
+    } while ((status & 0x80) == 0);
 
     *data = *(cntrl->base_address + RXDATA_OFFS);
 
     return;
 }
 
-void uart_set_txdata(uart_controller_t *cntrl, uint8_t data)
+void uart_set_txdata(uart_controller_t *cntrl, uint16_t data)
 {
 
     /*wait TRDY to be set to 1*/
-    while ((uart_set_status(cntrl, 0x0000) & 0x40) == 0);
+    uint16_t status;
+    do {
+        uart_read_status(cntrl, &status);
+    } while ((status & 0x40) == 0);
 
     *(cntrl->base_address + TXDATA_OFFS) = data;
 
