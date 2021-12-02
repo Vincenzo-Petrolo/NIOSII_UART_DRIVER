@@ -1,6 +1,6 @@
 #include "libuart.h"
 
-void uart_read_status(uart_controller_t *cntrl, uint8_t *status)
+void uart_read_status(uart_controller_t *cntrl, uint16_t *status)
 {
     *status = *(cntrl->base_address + STATUS_OFFS);
 
@@ -16,7 +16,7 @@ void uart_clear_status(uart_controller_t *cntrl)
 }
 
 
-void uart_read_control(uart_controller_t *cntrl, uint8_t *controller)
+void uart_read_control(uart_controller_t *cntrl, uint16_t *controller)
 {
     *controller = *(cntrl->base_address + CONTROL_OFFS);
 
@@ -44,23 +44,29 @@ void uart_set_divisor(uart_controller_t *cntrl, uint16_t value)
 }
 
 
-void uart_read_rxdata(uart_controller_t *cntrl, uint8_t *data)
+void uart_read_rxdata(uart_controller_t *cntrl, uint16_t *data)
 {
 
     /*wait RRDY to be set to 1*/
-    while ((uart_set_status(cntrl, 0x0000) & 0x80) == 0);
-    
+
+    uint16_t status;
+    do {
+        uart_read_status(cntrl, &status);
+    } while ((status & 0x80) == 0);
 
     *data = *(cntrl->base_address + RXDATA_OFFS);
 
     return;
 }
 
-void uart_set_txdata(uart_controller_t *cntrl, uint8_t data)
+void uart_set_txdata(uart_controller_t *cntrl, uint16_t data)
 {
 
     /*wait TRDY to be set to 1*/
-    while ((uart_set_status(cntrl, 0x0000) & 0x40) == 0);
+    uint16_t status;
+    do {
+        uart_read_status(cntrl, &status);
+    } while ((status & 0x40) == 0);
 
     *(cntrl->base_address + TXDATA_OFFS) = data;
 
