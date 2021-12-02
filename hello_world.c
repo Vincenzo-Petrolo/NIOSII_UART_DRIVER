@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include "system.h"
+#include "uartlib.h"
+
 int main()
 {
 	int *reg = (int *) RXDATA;
