@@ -1,7 +1,19 @@
+#include <stdio.h>
+#include <stdint.h>
+#include <string.h>
+#include "system.h"
+#include "sys/alt_timestamp.h"
+#include "altera_avalon_pio_regs.h"
+#include "libuart.h"
+
+#define EVER ;;
+
+#define BASE_ADDR 0x08001060
+
+#define BAUDRATE 2400
 #define CR 13
 #define BS 8
 
-#ifdef PROJECT8_1
 int main(void)
 {
 	uint16_t divisor_val, status_val;
