@@ -62,7 +62,7 @@ int main()
 	  //wait until register is ready
 	  do {
 		  status_reg=*(reg_ptr+STATUS_OFFS);
-	  } while( (status_reg & RRDY_MASK) == RRDY_MASK);
+	  } while( (status_reg & RRDY_MASK) == 0);
 	  //reading
 	  printf("STATUS register before reading:: %d\n", *(reg_ptr + STATUS_OFFS));
 	#ifdef DEBUG
@@ -128,6 +128,7 @@ int main()
   int divisor_val = 0;
   int *reg_ptr = (int *)BASE_ADDR;
   int status_reg;
+  int ROE_bit;
   int val_read;
 
   // welcome message
@@ -146,15 +147,10 @@ int main()
 	*(reg_ptr + CONTROL_OFFS) = 0;
 
 	while(1){
-	  //check ROE
-		status_reg=*(reg_ptr+STATUS_OFFS);
-		if(((status_reg&ROE_MASK)>>3)==1){
-			*(reg_ptr+STATUS_OFFS)= status_reg & (~(1 << 3)); //clear ROE
-		}
 	  //wait until register is ready
 	  do {
 		  status_reg=*(reg_ptr+STATUS_OFFS);
-	  } while( (status_reg & RRDY_MASK) == RRDY_MASK);
+	  } while( (status_reg & RRDY_MASK) == 0);
 	  //reading
 	  printf("STATUS register before reading:: %d\n", *(reg_ptr + STATUS_OFFS));
 	#ifdef DEBUG
@@ -168,8 +164,15 @@ int main()
 	  //delay of a few seconds
 	  alt_timestamp_start();// starts timer
 	  while(alt_timestamp() < ticks_delay);
+          //check ROE
+          status_reg=*(reg_ptr+STATUS_OFFS);
+	  ROE_bit=(status_reg & ROE_MASK)>>3;
+	  printf("ROE bit:: %d\n", ROE_bit);
+	  if(ROE_bit==1){
+	      *(reg_ptr+STATUS_OFFS)= status_reg & (~(1 << 3)); //clear ROE
+	  }
 
-	}
+	 }
 
 
 	return 0;
