@@ -1,36 +1,4 @@
-#include <stdio.h>
-#include <stdint.h>
-#include <string.h>
-#if 0
-#include "system.h"
-#include "sys/alt_timestamp.h"
-#include "altera_avalon_pio_regs.h"
-#endif
-#include "libuart.h"
-
-#define DEBUG 1
-#define EVER ;;
-#define PROJECT4_2
-
-#define BASE_ADDR 0x08001060
-
-#define BAUDRATE 2400
-
-/*Useful masks*/
-#define RRDY_MASK 0x80
-#define TRDY_MASK 0x40
-
-
-/**
- * Useful functions
-  int alt_timestamp_freq(void)
-  void alt_timestamp_start(void)
-  int alt_timestamp(void)
-  IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, value);
-*/
-
 #ifdef PROJECT7_1
-#define BAUDRATE 2400
 int main(void)
 {
 	uint16_t divisor_val, status_val;
@@ -47,12 +15,8 @@ int main(void)
 	/*Update divisor*/
 	uart_set_divisor(&controller, divisor_val);
 
-	#if DEBUG
-		printf("divisor_val:: %d\n", divisor_val);
-	#endif
-	
 	/*disabling all interrupts for polling*/
-	uart_set_control(&controller, 0);
+	uart_set_control(&controller, 0x0, 0xFFFF);
 	
 	for(EVER)
 	{
