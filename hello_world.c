@@ -29,11 +29,6 @@
   IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, value);
 */
 
-void uart_set_register(uint32_t reg_addr, uint16_t value);
-void uart_read_register(uint32_t reg_addr,uint16_t *regdata);
-void uart_read_data(uint16_t *read);
-void uart_write_data(uint8_t data);
-
 #ifdef PROJECT4_1
 int main()
 {
