@@ -1,13 +1,11 @@
 int main()
 {
-	int *base_address = RXDATA;
-	int reg;
+	int *reg = (int *) RXDATA;
 	for ( int i = 0 ; i < 5; i++)
 	{
-		reg = *base_address;
-		printf ( "%d\n", val);
-		base_address += 4;
+		printf ( "%d\n", *reg);
+		reg++;
 	}
-	while(1);
+	for(EVER);
 	return 0;
 }
