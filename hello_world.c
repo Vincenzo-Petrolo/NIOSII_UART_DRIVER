@@ -1,11 +1,9 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
-#if 0
 #include "system.h"
 #include "sys/alt_timestamp.h"
 #include "altera_avalon_pio_regs.h"
-#endif
 #include "libuart.h"
 
 #define DEBUG 1
