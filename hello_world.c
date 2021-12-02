@@ -8,6 +8,7 @@
 #include "libuart.h"
 
 #define DEBUG 1
+#define EVER ;;
 
 #define PROJECT5_1
 
@@ -76,7 +77,7 @@ int main()
 	  	printf("Character received: %c\n ", val_read);
 
 	  	uart_read_status(&controller, status_val);
-		printf("STATUS register before reading:: %d\n", status_val);
+		printf("STATUS register after reading:: %d\n", status_val);
 
 	}
 
@@ -119,7 +120,7 @@ int main()
 	  arriving_char = *(reg_ptr+RXDATA_OFFS);
 	  printf("Character received: %c\n ", arriving_char);
 	 uart_read_status(&controller, status_val);
-		printf("STATUS register before reading:: %d\n", status_val);
+		printf("STATUS register after reading:: %d\n", status_val);
 	}
 
 	return 0;
@@ -165,7 +166,7 @@ int main()
 	 	printf("Character received: %c\n ", val_read);
 
 	  	uart_read_status(&controller, status_val);
-		printf("STATUS register before reading:: %d\n", status_val);
+		printf("STATUS register after reading:: %d\n", status_val);
 
 	  //delay of a few seconds
 	  alt_timestamp_start();// starts timer
