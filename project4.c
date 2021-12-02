@@ -8,7 +8,7 @@
 
 #define DEBUG 1
 #define EVER ;;
-#define PROJECT4_2
+#define PROJECT4_1
 
 #define BASE_ADDR 0x08001060
 

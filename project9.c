@@ -70,23 +70,27 @@ int main()
 		uart_read_rxdata(&controller, arriving_char);
 		
 	#ifdef DEBUG
-	  	  IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, 1);
-	  	  for(int i=0;i<100;i++);
-	  	  IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, 0);
+		IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, 1);
+		for(int i=0;i<100;i++);
+		IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, 0);
 	#endif
 
 	  	printf("Character received: %c\n ", arriving_char);
 
 	  	uart_read_status(&controller, status_val);
 		printf("STATUS register after reading:: %d\n", status_val);
-	      //check PE
-		  PE_bit=status_val & PE_MASK;
-		  printf("PE bit:: %d\n", PE_bit);
-		  if(PE_bit==1){
-			  printf("PARITY ERROR!!!\n);
-		      uart_clear_status(&controller);
-		  }
+		//check PE
+		PE_bit=status_val & PE_MASK;
+		printf("PE bit:: %d\n", PE_bit);
+		if(PE_bit==1){
+			printf("PARITY ERROR!!!\n");
+			uart_clear_status(&controller);
+		}
 
+		divisor_val += 2;
+
+		/*Updating dynamically the divisor by fixed amount*/
+		uart_set_divisor(&controller, divisor_val);
 	}
 
 	return 0;

@@ -1,11 +1,9 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
-#if 0
 #include "system.h"
 #include "sys/alt_timestamp.h"
 #include "altera_avalon_pio_regs.h"
-#endif
 #include "libuart.h"
 #include "libfifo.h"
 
@@ -91,7 +89,7 @@ void uart_isr_handler(void *ctx)
     uint16_t status;
     uart_read_status(context->cntrl, &status);
 
-    if ( (status & 0x80) == 0x80) {
+    if ( (status & RRDY_MASK) == RRDY_MASK) {
         /*Ok, read*/
         uart_isr_read(ctx);
     } else {
@@ -117,6 +115,8 @@ void uart_isr_read(void *ctx)
 
     /*To implement producer consumer i add the read data to a fifo queue*/
     fifo_push(context->fifo, data);
+
+    /*Maybe force uart_isr_write to execute?*/
 
     return;
 }

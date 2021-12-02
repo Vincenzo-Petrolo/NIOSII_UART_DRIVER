@@ -109,18 +109,18 @@ int main()
 
 	for(EVER){
 
-	  //reading
-	 uart_read_status(&controller, status_val);
-		printf("STATUS register before reading:: %d\n", status_val);
+	//reading
+	uart_read_status(&controller, status_val);
+	printf("STATUS register before reading:: %d\n", status_val);
 	#ifdef DEBUG
-	  	  IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, 1);
-	  	  for(int i=0;i<100;i++);
-	  	  IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, 0);
+		IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, 1);
+		for(int i=0;i<100;i++);
+		IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, 0);
 	#endif
-	  arriving_char = *(reg_ptr+RXDATA_OFFS);
-	  printf("Character received: %c\n ", arriving_char);
-	 uart_read_status(&controller, status_val);
-		printf("STATUS register after reading:: %d\n", status_val);
+	arriving_char = *(reg_ptr+RXDATA_OFFS);
+	printf("Character received: %c\n ", arriving_char);
+	uart_read_status(&controller, status_val);
+	printf("STATUS register after reading:: %d\n", status_val);
 	}
 
 	return 0;
@@ -153,33 +153,33 @@ int main()
 
 
 	for(EVER){
-	  uart_read_status(&controller, status_val);
+		uart_read_status(&controller, status_val);
 		printf("STATUS register before reading:: %d\n", status_val);
 
 		uart_read_rxdata(&controller, arriving_char);
 
-	#ifdef DEBUG
-	  	  IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, 1);
-	  	  for(int i=0;i<100;i++);
-	  	  IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, 0);
-	#endif
+		#ifdef DEBUG
+			IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, 1);
+			for(int i=0;i<100;i++);
+			IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, 0);
+		#endif
 	 	printf("Character received: %c\n ", val_read);
 
 	  	uart_read_status(&controller, status_val);
 		printf("STATUS register after reading:: %d\n", status_val);
 
-	  //delay of a few seconds
-	  alt_timestamp_start();// starts timer
-	  while(alt_timestamp() < ticks_delay);
-          //check ROE
-          	uart_read_status(&controller, status_val);
-	  ROE_bit=(status_val & ROE_MASK)>>3;
-	  printf("ROE bit:: %d\n", ROE_bit);
-	  if(ROE_bit==1){
-	      uart_clear_status(&controller);
-	  }
+		//delay of a few seconds
+		alt_timestamp_start();// starts timer
+		while(alt_timestamp() < ticks_delay);
+		//check ROE
+		uart_read_status(&controller, status_val);
+		ROE_bit=(status_val & ROE_MASK)>>3;
+		printf("ROE bit:: %d\n", ROE_bit);
+		if(ROE_bit==1){
+			uart_clear_status(&controller);
+		}
 
-	 }
+	}
 
 
 	return 0;

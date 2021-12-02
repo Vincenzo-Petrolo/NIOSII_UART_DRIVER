@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include "system.h"
-#include "uartlib.h"
+#include "libuart.h"
+
+#define BASE_ADDRESS 0x08001060
 
 int main()
 {
-	int *reg = (int *) RXDATA;
+	int *reg = (int *) BASE_ADDRESS;
 	for ( int i = 0 ; i < 5; i++)
 	{
 		printf ( "%d\n", *reg);
