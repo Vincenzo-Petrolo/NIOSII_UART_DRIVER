@@ -29,7 +29,7 @@ void uart_read_control(uart_controller_t *cntrl, uint16_t *controller)
 void uart_set_control(uart_controller_t *cntrl, uint16_t bitmask1, uint16_t bitmask0)
 {
     uint16_t control_reg;
-    uart_read_controller(cntrl, &control_reg);
+    uart_read_control(cntrl, &control_reg);
     control_reg |= bitmask1;
     control_reg &= ~(bitmask0);
 
