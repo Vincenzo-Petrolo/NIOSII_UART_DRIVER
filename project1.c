@@ -3,6 +3,7 @@
 #include "libuart.h"
 
 #define BASE_ADDRESS 0x08001060
+#define EVER ;;
 
 int main()
 {
