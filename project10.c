@@ -28,7 +28,7 @@ typedef struct context
     fifo_t *fifo;
 } context_t;
 
-#define QUEUE_SIZE 1024
+#define QUEUE_SIZE 10
 
 void uart_isr_handler(void *ctx);
 void uart_isr_read(void *ctx);
@@ -112,11 +112,18 @@ void uart_isr_read(void *ctx)
     /*This shouldn't wait, bc interrupts signals 
     that i have data on rxdata => non blocking*/
     uart_read_rxdata(context->cntrl, &data);
-
+    printf("rec: %c\n", data);
     /*To implement producer consumer i add the read data to a fifo queue*/
     fifo_push(context->fifo, data);
 
     /*Maybe force uart_isr_write to execute?*/
+    uint16_t status;
+
+    uart_read_status(context->cntrl, &status);
+
+    if (fifo_is_full(context->fifo)) {
+    	uart_isr_write(ctx);
+    }
 
     return;
 }
@@ -138,6 +145,7 @@ void uart_isr_write(void *ctx)
 
     /*Send over uart*/
     uart_set_txdata(context->cntrl, data);
+    printf("send: %c\n", data);
 
     return;
 }

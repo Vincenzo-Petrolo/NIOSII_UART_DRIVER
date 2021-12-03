@@ -21,6 +21,9 @@ void fifo_pop(fifo_t *, uint8_t *value);
 
 uint8_t fifo_is_empty(fifo_t *);
 
+uint8_t fifo_is_full(fifo_t *);
+
+
 /**
  * There's no control on full capacity of fifo, bc i expect it to be extremely fast,
  * as long as we use reasonable baud rates

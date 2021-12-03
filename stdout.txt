@@ -115,3 +115,99 @@ Character received: ù
 PE bit:: 1
 PARITY ERROR!!!
 STATUS register before reading:: 96
+
+NIOSII_UART_DRIVER_project4
+
+divisor_val:: 20832
+rec: K
+send: K
+rec: U
+send: U
+rec: I
+send: I
+rec: N
+send: N
+
+NIOSII_UART_DRIVER_project4
+
+divisor_val:: 20832
+rec:  
+rec: G
+rec: V
+rec: J
+rec:  
+rec: J
+rec: S
+rec: A
+rec: B
+send:  
+rec:  
+rec: H
+rec: J
+rec: B
+rec: F
+rec: H
+rec: J
+rec: W
+rec: B
+rec: F
+send: J
+rec: H
+rec: W
+rec: B
+rec: F
+rec: J
+rec: W
+rec: B
+rec: H
+rec: J
+rec: E
+send: F
+rec: W
+rec: F
+rec: B
+rec: H
+rec: V
+rec: F
+rec: J
+rec: E
+rec: V
+rec: W
+send: V
+rec: H
+rec: H
+rec: F
+rec: V
+rec: W
+rec: E
+rec: H
+rec: V
+rec: F
+rec: E
+send: E
+rec: W
+rec: J
+rec: H
+rec: V
+rec: F
+rec: H
+rec: E
+rec: V
+rec: F
+rec: H
+send: E
+rec: Q
+rec: W
+rec: E
+rec: R
+rec: T
+rec: T
+rec: R
+rec: E
+rec: W
+rec: Q
+send: E
+rec: W
+rec: E
+rec: R
+

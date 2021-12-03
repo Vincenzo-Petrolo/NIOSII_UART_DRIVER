@@ -38,3 +38,10 @@ uint8_t fifo_is_empty(fifo_t *fifo)
         return 0;
     }
 }
+
+uint8_t fifo_is_full(fifo_t * fifo) {
+	if (fifo->bottom == (fifo->size - 1)) {
+		return 1;
+	}
+	return 0;
+}
