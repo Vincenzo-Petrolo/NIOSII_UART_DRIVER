@@ -18,7 +18,7 @@ int main(void)
 {
 	uint16_t divisor_val;
 	uart_controller_t controller;
-	uint16_t arriving_string[64+1];
+	uint8_t arriving_string[64+1];
 	int i;
 	
 	/*init uart controller*/
@@ -33,11 +33,12 @@ int main(void)
 	
 	/*disabling all interrupts for polling*/
 	uart_set_control(&controller, 0x0, 0xFFFF);
-	
+	uint16_t tmp;
 	for(EVER) {
 		for(i = 0; i < 64; i++)
 		{
-			uart_read_rxdata(&controller, arriving_string+i);
+			uart_read_rxdata(&controller, &tmp);
+			arriving_string[i] = 0xFF & tmp;
 			if ( arriving_string[i] == CR )
 				break;
 			if ( arriving_string[i] == BS )

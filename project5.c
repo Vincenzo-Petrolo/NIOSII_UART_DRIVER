@@ -13,13 +13,9 @@
 #define PROJECT5_1
 
 #define BASE_ADDR 0x08001060
-#define RXDATA_OFFS 0
-#define TXDATA_OFFS 4
-#define STATUS_OFFS 8
-#define CONTROL_OFFS 12
-#define DIVISOR_OFFS 16
 
-#define BAUDRATE 2400
+
+#define BAUDRATE 115200
 
 #define RRDY_MASK 0x80
 #define ROE_MASK 0x8
@@ -44,6 +40,7 @@ int main()
   uart_controller_t controller;
   uint16_t status_val;
 
+  	  uart_init(&controller, BASE_ADDR);
  	 // welcome message
   	printf("NIOSII_UART_DRIVER_project5_1\n\n");
 
@@ -67,16 +64,11 @@ int main()
 
 		uart_read_rxdata(&controller, &arriving_char);
 		
-	#ifdef DEBUG
-	  	  IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, 1);
-	  	  for(int i=0;i<100;i++);
-	  	  IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, 0);
-	#endif
 
 	  	printf("Character received: %c\n ", arriving_char);
 
 	  	uart_read_status(&controller, &status_val);
-		printf("STATUS register after reading:: %d\n", status_val);
+		printf("STATUS register after reading:: %d\n\n", status_val);
 
 	}
 
@@ -89,7 +81,12 @@ int main()
 {
   int divisor_val = 0;
   int *reg_ptr = (int *)BASE_ADDR;
-  uint16_t val_read;
+  char arriving_char;
+  uint16_t status_val;
+  uart_controller_t controller;
+
+
+  uart_init(&controller, BASE_ADDR);
 
    	 // welcome message
   	printf("NIOSII_UART_DRIVER_project5_2\n\n");
@@ -99,7 +96,7 @@ int main()
  	printf("divisor_val:: %d\n", divisor_val);
 
 	//Write divisor_val in DIVISOR register
-	uart_set_divisor(&controller, divisor_val)
+	uart_set_divisor(&controller, divisor_val);
 
 
 	//disable all interrupts
@@ -129,10 +126,15 @@ int main()
 #ifdef PROJECT5_3
 int main()
 {
+	  int divisor_val = 0;
+	  int *reg_ptr = (int *)BASE_ADDR;
+	  char arriving_char;
+	  uint16_t status_val;
+	  uart_controller_t controller;
+
+
+	  uart_init(&controller, BASE_ADDR);
   int ticks_delay=alt_timestamp_freq()*3;
-  int divisor_val = 0;
-  int *reg_ptr = (int *)BASE_ADDR;
-  int status_reg;
   int ROE_bit;
   int val_read;
 
@@ -144,7 +146,7 @@ int main()
  	printf("divisor_val:: %d\n", divisor_val);
 
 	//Write divisor_val in DIVISOR register
-	uart_set_divisor(&controller, divisor_val)
+	uart_set_divisor(&controller, divisor_val);
 
 
 	//disable all interrupts
@@ -157,12 +159,7 @@ int main()
 
 		uart_read_rxdata(&controller, &arriving_char);
 
-		#ifdef DEBUG
-			IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, 1);
-			for(int i=0;i<100;i++);
-			IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, 0);
-		#endif
-	 	printf("Character received: %c\n ", val_read);
+	 	printf("Character received: %c\n ", arriving_char);
 
 	  	uart_read_status(&controller, &status_val);
 		printf("STATUS register after reading:: %d\n", status_val);

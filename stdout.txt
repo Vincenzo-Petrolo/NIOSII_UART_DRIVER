@@ -1,0 +1,117 @@
+PROJECT 3_3
+NIOSII_UART_DRIVER_project3
+
+divisor_val:: 20832 - BAUDRATE:: 2400
+
+
+*** Transmitting 3 chars consecutively ***
+
+STATUS register before 1st tx:: 96
+STATUS register after 3rd tx:: 272
+
+NIOSII_UART_DRIVER_project5_1
+
+divisor_val:: 20832
+STATUS register before reading:: 364
+Character received: C
+ STATUS register after reading:: 364
+
+STATUS register before reading:: 364
+Character received: i
+ STATUS register after reading:: 364
+
+STATUS register before reading:: 364
+Character received: a
+ STATUS register after reading:: 364
+
+STATUS register before reading:: 364
+Character received: o
+ STATUS register after reading:: 364
+
+STATUS register before reading:: 364
+Character received:  
+ STATUS register after reading:: 364
+
+STATUS register before reading:: 364
+Character received: d
+ STATUS register after reading:: 364
+
+STATUS register before reading:: 364
+Character received: a
+ STATUS register after reading:: 364
+
+STATUS register before reading:: 364
+Character received:  
+ STATUS register after reading:: 364
+
+STATUS register before reading:: 364
+Character received: F
+ STATUS register after reading:: 364
+
+STATUS register before reading:: 364
+Character received: P
+ STATUS register after reading:: 364
+
+STATUS register before reading:: 364
+Character received: G
+ STATUS register after reading:: 364
+
+STATUS register before reading:: 364
+Character received: A
+ STATUS register after reading:: 364
+
+STATUS register before reading:: 364
+Character received: l
+ STATUS register after reading:: 364
+
+STATUS register before reading:: 364
+
+NIOSII_UART_DRIVER_project5_2
+Character received:  
+ STATUS register after reading:: 364
+STATUS register before reading:: 364
+
+NIOSII_UART_DRIVER_project5_3
+STATUS register before reading:: 96
+Character received: G
+ STATUS register after reading:: 96
+ROE bit:: 0
+STATUS register before reading:: 224
+Character received: G
+ STATUS register after reading:: 96
+ROE bit:: 1
+STATUS register before reading:: 224
+Character received: J
+ STATUS register after reading:: 96
+ROE bit:: 0
+STATUS register before reading:: 96
+NIOSII_UART_DRIVER_project4
+
+NIOSII_UART_DRIVER_project7
+
+status: 96
+N
+parity error detected, status: 353
+status: 96
+
+NIOSII_UART_DRIVER_project8
+CIAO
+CIAE
+
+NIOSII_UART_DRIVER_project9
+
+divisor_val:: 20832
+STATUS register before reading:: 492
+Character received: 
+
+divisor_val:: 433
+STATUS register before reading:: 96
+Character received: N
+ STATUS register after reading:: 96
+PE bit:: 0
+STATUS register before reading:: 96
+Character received: ù
+ STATUS register after reading:: 353
+PE bit:: 1
+PARITY ERROR!!!
+STATUS register before reading:: 96

@@ -47,7 +47,7 @@ int main()
 
  	 // welcome message
   	printf("NIOSII_UART_DRIVER_project5_1\n\n");
-
+  	uart_init(&controller, BASE_ADDR);
 	// DIVISOR computation for desired BAUDRATE
  	divisor_val = (alt_timestamp_freq()/BAUDRATE)-1;
  	printf("divisor_val:: %d\n", divisor_val);
@@ -86,7 +86,10 @@ int main()
 			uart_clear_status(&controller);
 		}
 
-		divisor_val += 2;
+		divisor_val += 1000;
+		uart_set_divisor(&controller, divisor_val);
+
+
 
 		/*Updating dynamically the divisor by fixed amount*/
 		uart_set_divisor(&controller, divisor_val);
