@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "libuart.h"
 
 void uart_read_status(uart_controller_t *cntrl, uint16_t *status)

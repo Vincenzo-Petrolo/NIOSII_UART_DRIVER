@@ -3,10 +3,10 @@
 #include <stdint.h>
 
 #define RXDATA_OFFS 0
-#define TXDATA_OFFS 4
-#define STATUS_OFFS 8
-#define CONTROL_OFFS 12
-#define DIVISOR_OFFS 16
+#define TXDATA_OFFS 1
+#define STATUS_OFFS 2
+#define CONTROL_OFFS 3
+#define DIVISOR_OFFS 4
 
 
 typedef struct uart_controller
