@@ -3,7 +3,7 @@
 
 void uart_read_status(uart_controller_t *cntrl, uint16_t *status)
 {
-    *status = *(cntrl->base_address + STATUS_OFFS);
+    *status = readw(cntrl->base_address + STATUS_OFFS);
 
     return;
 }
@@ -19,7 +19,7 @@ void uart_clear_status(uart_controller_t *cntrl)
 
 void uart_read_control(uart_controller_t *cntrl, uint16_t *controller)
 {
-    *controller = *(cntrl->base_address + CONTROL_OFFS);
+    *controller = readw(cntrl->base_address + CONTROL_OFFS);
 
     return;
 }
@@ -55,7 +55,7 @@ void uart_read_rxdata(uart_controller_t *cntrl, uint16_t *data)
         uart_read_status(cntrl, &status);
     } while ((status & 0x80) == 0);
 
-    *data = *(cntrl->base_address + RXDATA_OFFS);
+    *data = readw(cntrl->base_address + RXDATA_OFFS);
 
     return;
 }
@@ -79,4 +79,9 @@ void uart_init(uart_controller_t *cntrl,uint32_t *base_address)
     cntrl->base_address = base_address;
 
     return;
+}
+
+/*Avoid compiler optimizations using volatile*/
+uint16_t readw(const volatile uint16_t *addr) { 
+    return *addr; 
 }

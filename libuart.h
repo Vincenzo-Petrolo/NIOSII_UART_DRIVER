@@ -34,4 +34,6 @@ void uart_set_control(uart_controller_t *cntrl, uint16_t bitmask1, uint16_t bitm
 
 void uart_set_divisor(uart_controller_t *cntrl, uint16_t value);
 
+uint16_t readw(const volatile uint16_t *addr);
+
 #endif
