@@ -40,11 +40,10 @@
 int main()
 {
   uint16_t divisor_val;
-  int *reg_ptr = (int *)BASE_ADDR;
-  int status_reg;
-  char arriving_char;
+  uint16_t arriving_char;
   uart_controller_t controller;
   uint16_t status_val;
+  uint16_t PE_bit;
 
  	 // welcome message
   	printf("NIOSII_UART_DRIVER_project5_1\n\n");
@@ -54,7 +53,7 @@ int main()
  	printf("divisor_val:: %d\n", divisor_val);
 
 	//Write divisor_val in DIVISOR register
-	uart_set_divisor(&controller, divisor_val)
+	uart_set_divisor(&controller, divisor_val);
 
 
 	//disable all interrupts
@@ -64,10 +63,10 @@ int main()
 	for(EVER){
 
 		//reading
-		uart_read_status(&controller, status_val);
+		uart_read_status(&controller, &status_val);
 		printf("STATUS register before reading:: %d\n", status_val);
 
-		uart_read_rxdata(&controller, arriving_char);
+		uart_read_rxdata(&controller, &arriving_char);
 		
 	#ifdef DEBUG
 		IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, 1);

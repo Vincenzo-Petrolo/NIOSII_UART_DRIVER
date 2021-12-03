@@ -38,7 +38,7 @@ int main(void)
 {
     uint16_t divisor_val = 0;
     uint32_t tmp = 0;
-    uint8_t queue[QUEUE_SIZE] = 0;
+    uint8_t queue[QUEUE_SIZE];
     uart_controller_t controller;
     fifo_t fifo;
     context_t context = {&controller, &fifo}; //this looks so pythonic and it scares me

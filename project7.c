@@ -16,7 +16,7 @@ int main(void)
 {
 	uint16_t divisor_val, status_val;
 	uart_controller_t controller;
-	uint8_t arriving_char;
+	uint16_t arriving_char;
 	
 	/*init uart controller*/
 	uart_init(&controller, BASE_ADDR);
@@ -36,7 +36,7 @@ int main(void)
 		uart_read_rxdata(&controller, &arriving_char);
 		printf("%c", arriving_char);
 		uart_read_status(&controller, &status_val);
-		if ((status_val)&0x1) == 1)
+		if ((status_val&0x1) == 1)
 		{
 			printf("parity error detected");
 			uart_clear_status(&controller);

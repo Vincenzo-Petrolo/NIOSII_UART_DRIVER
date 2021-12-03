@@ -39,9 +39,8 @@
 int main()
 {
   uint16_t divisor_val;
-  int *reg_ptr = (int *)BASE_ADDR;
-  int status_reg;
-  char arriving_char;
+
+  uint16_t arriving_char;
   uart_controller_t controller;
   uint16_t status_val;
 
@@ -53,7 +52,7 @@ int main()
  	printf("divisor_val:: %d\n", divisor_val);
 
 	//Write divisor_val in DIVISOR register
-	uart_set_divisor(&controller, divisor_val)
+	uart_set_divisor(&controller, divisor_val);
 
 
 	//disable all interrupts
@@ -63,10 +62,10 @@ int main()
 	for(EVER){
 
 		//reading
-		uart_read_status(&controller, status_val);
+		uart_read_status(&controller, &status_val);
 		printf("STATUS register before reading:: %d\n", status_val);
 
-		uart_read_rxdata(&controller, arriving_char);
+		uart_read_rxdata(&controller, &arriving_char);
 		
 	#ifdef DEBUG
 	  	  IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, 1);
@@ -74,9 +73,9 @@ int main()
 	  	  IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, 0);
 	#endif
 
-	  	printf("Character received: %c\n ", val_read);
+	  	printf("Character received: %c\n ", arriving_char);
 
-	  	uart_read_status(&controller, status_val);
+	  	uart_read_status(&controller, &status_val);
 		printf("STATUS register after reading:: %d\n", status_val);
 
 	}
@@ -110,7 +109,7 @@ int main()
 	for(EVER){
 
 	//reading
-	uart_read_status(&controller, status_val);
+	uart_read_status(&controller, &status_val);
 	printf("STATUS register before reading:: %d\n", status_val);
 	#ifdef DEBUG
 		IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, 1);
@@ -119,7 +118,7 @@ int main()
 	#endif
 	arriving_char = *(reg_ptr+RXDATA_OFFS);
 	printf("Character received: %c\n ", arriving_char);
-	uart_read_status(&controller, status_val);
+	uart_read_status(&controller, &status_val);
 	printf("STATUS register after reading:: %d\n", status_val);
 	}
 
@@ -153,10 +152,10 @@ int main()
 
 
 	for(EVER){
-		uart_read_status(&controller, status_val);
+		uart_read_status(&controller, &status_val);
 		printf("STATUS register before reading:: %d\n", status_val);
 
-		uart_read_rxdata(&controller, arriving_char);
+		uart_read_rxdata(&controller, &arriving_char);
 
 		#ifdef DEBUG
 			IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, 1);
@@ -165,14 +164,14 @@ int main()
 		#endif
 	 	printf("Character received: %c\n ", val_read);
 
-	  	uart_read_status(&controller, status_val);
+	  	uart_read_status(&controller, &status_val);
 		printf("STATUS register after reading:: %d\n", status_val);
 
 		//delay of a few seconds
 		alt_timestamp_start();// starts timer
 		while(alt_timestamp() < ticks_delay);
 		//check ROE
-		uart_read_status(&controller, status_val);
+		uart_read_status(&controller, &status_val);
 		ROE_bit=(status_val & ROE_MASK)>>3;
 		printf("ROE bit:: %d\n", ROE_bit);
 		if(ROE_bit==1){
